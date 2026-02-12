@@ -219,19 +219,20 @@ ListaDoble::NodoDoble *ListaDoble::buscar_mejor_ajuste(int num_bloques)
 
 // allocar: similar a lista simple; eliminación de nodo es O(1) si aplica
 
-bool ListaDoble::allocar(int num_bloques)
+int ListaDoble::allocar(int num_bloques)
 {
     simular_acceso_disco(ALLOCACION, num_bloques);
-
     NodoDoble *nodo = buscar_mejor_ajuste(num_bloques);
 
     if (nodo == nullptr)
     {
-        return false;
+        return -1;
     }
 
+    int inicio = nodo->inicio;
+
     // Marcar bloques en el disco
-    for (int i = nodo->inicio; i < nodo->inicio + num_bloques; i++)
+    for (int i = inicio; i < inicio + num_bloques; i++)
     {
         disco[i] = true;
     }
@@ -242,17 +243,15 @@ bool ListaDoble::allocar(int num_bloques)
     // Actualizar nodo
     if (nodo->tamanio == num_bloques)
     {
-        // Eliminar nodo completo (O(1) gracias a lista doble)
         eliminar_nodo(nodo);
     }
     else
     {
-        // Reducir tamaño
         nodo->inicio += num_bloques;
         nodo->tamanio -= num_bloques;
     }
 
-    return true;
+    return inicio;
 }
 
 // liberar: marcar bloques libres, insertar segmento y coalescencia

@@ -160,19 +160,20 @@ ListaSimple::Nodo *ListaSimple::buscar_mejor_ajuste(int num_bloques)
 // 4. Actualizar o eliminar el nodo
 // ============================================================================
 
-bool ListaSimple::allocar(int num_bloques)
+int ListaSimple::allocar(int num_bloques)
 {
     simular_acceso_disco(ALLOCACION, num_bloques);
-
     Nodo *nodo = buscar_mejor_ajuste(num_bloques);
 
     if (nodo == nullptr)
     {
-        return false; // No hay espacio suficiente
+        return -1; // No hay espacio suficiente
     }
 
+    int inicio = nodo->inicio;
+
     // Marcar bloques como ocupados en el disco real
-    for (int i = nodo->inicio; i < nodo->inicio + num_bloques; i++)
+    for (int i = inicio; i < inicio + num_bloques; i++)
     {
         disco[i] = true;
     }
@@ -180,10 +181,9 @@ bool ListaSimple::allocar(int num_bloques)
     bloques_ocupados += num_bloques;
     bloques_libres -= num_bloques;
 
-    // ACTUALIZAR EL NODO:
+    // Actualizar el nodo
     if (nodo->tamanio == num_bloques)
     {
-        // El nodo se usa completo → eliminar de la lista
         if (nodo == cabeza)
         {
             cabeza = cabeza->siguiente;
@@ -191,7 +191,6 @@ bool ListaSimple::allocar(int num_bloques)
         }
         else
         {
-            // Buscar nodo anterior
             Nodo *anterior = cabeza;
             while (anterior->siguiente != nodo)
             {
@@ -203,12 +202,11 @@ bool ListaSimple::allocar(int num_bloques)
     }
     else
     {
-        // El nodo se usa parcialmente → reducir tamaño
-        nodo->inicio += num_bloques;  // Mover inicio
-        nodo->tamanio -= num_bloques; // Reducir tamaño
+        nodo->inicio += num_bloques;
+        nodo->tamanio -= num_bloques;
     }
 
-    return true;
+    return inicio;
 }
 
 // ============================================================================

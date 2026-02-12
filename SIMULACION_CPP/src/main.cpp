@@ -85,16 +85,15 @@ ResultadoEstructura ejecutar_secuencia_pruebas(GestorDisco *gestor)
 
         // Medir tiempo
         gestor->iniciar_cronometro();
-        bool exito = gestor->allocar(num_bloques);
+        int inicio_real = gestor->allocar(num_bloques);
         long long tiempo = gestor->detener_cronometro();
 
         // Guardar tiempo (solo si fue exitoso)
-        if (exito)
+        if (inicio_real != -1)
         {
             resultado.tiempos_allocacion.push_back(tiempo);
-            // Guardar para poder liberar después
-            // (Aproximado - no sabemos exactamente dónde allocó)
-            allocaciones_exitosas.push_back({dist_bloque(gen), num_bloques});
+            // Guardar la posición real para liberarla después
+            allocaciones_exitosas.push_back({inicio_real, num_bloques});
         }
 
         // Progreso cada 10 operaciones
@@ -287,16 +286,20 @@ int main()
 
         // Inicializar todos con el mismo estado (70% ocupado)
         std::cout << "Inicializando disco (" << (OCUPACION_INICIAL * 100) << "% ocupado)...\n";
-        for (auto &gestor : gestores)
-        {
-            gestor->inicializar_disco(OCUPACION_INICIAL);
-        }
+            // Generar un estado inicial único y cargarlo en cada estructura
+            MapaDeBits tmp;
+            tmp.inicializar_disco(OCUPACION_INICIAL);
+            // Guardar el estado inicial la primera vez
+            if (corrida == 1)
+            {
+                tmp.guardar_estado("data/disco_inicial.txt");
+            }
 
-        // Guardar estado inicial (solo una vez)
-        if (corrida == 1)
-        {
-            gestores[0]->guardar_estado("data/disco_inicial.txt");
-        }
+            // Cargar el mismo estado en cada gestor para asegurar igualdad de condiciones
+            for (auto &gestor : gestores)
+            {
+                gestor->cargar_estado("data/disco_inicial.txt");
+            }
 
         // Ejecutar pruebas para cada estructura
         for (auto &gestor : gestores)

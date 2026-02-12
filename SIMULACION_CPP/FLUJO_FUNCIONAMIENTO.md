@@ -210,7 +210,7 @@ int bloques_ocupados;      // Contador de bloques ocupados
 
 **Métodos virtuales puros** (obligatorios para clases hijas):
 ```cpp
-virtual bool allocar(int num_bloques) = 0;           // Llenar N bloques
+virtual int allocar(int num_bloques) = 0;           // Llenar N bloques, retorna inicio o -1
 virtual bool liberar(int inicio, int num_bloques) = 0; // Vaciar N bloques
 virtual int buscar_bloque_mas_grande() = 0;          // Encontrar hueco mayor
 ```

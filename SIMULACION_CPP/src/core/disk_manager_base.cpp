@@ -263,9 +263,7 @@ long long GestorDisco::detener_cronometro()
     return duracion.count();
 }
 
-// ============================================================================
 // IMPLEMENTACIÓN DE MapaDeBits
-// ============================================================================
 
 /*
  * CONSTRUCTOR
@@ -335,7 +333,7 @@ int MapaDeBits::buscar_bloques_consecutivos(int num_bloques)
  * 3. Marcarlos como ocupados
  * 4. Actualizar contadores
  */
-bool MapaDeBits::allocar(int num_bloques)
+int MapaDeBits::allocar(int num_bloques)
 {
     simular_acceso_disco(ALLOCACION, num_bloques);
 
@@ -343,7 +341,7 @@ bool MapaDeBits::allocar(int num_bloques)
 
     if (inicio == -1)
     {
-        return false; // No hay espacio suficiente
+        return -1; // No hay espacio suficiente
     }
 
     // Marcar bloques como ocupados
@@ -356,7 +354,7 @@ bool MapaDeBits::allocar(int num_bloques)
     bloques_ocupados += num_bloques;
     bloques_libres -= num_bloques;
 
-    return true;
+    return inicio;
 }
 
 /*

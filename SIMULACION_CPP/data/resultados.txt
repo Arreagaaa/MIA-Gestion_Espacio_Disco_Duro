@@ -1,152 +1,152 @@
 RESULTADOS DE SIMULACIÓN
-Fecha: Feb 11 2026 18:56:03
+Fecha: Feb 12 2026 11:33:16
 Configuración:
   - Total bloques: 1024
   - Tamaño bloque: 1024 bytes
   - Ocupación inicial: 70%
   - Número de corridas: 5
 
-=========================================
-CORRIDA 1
-=========================================
+----
+Corrida 1
+----
 
 Estructura: Mapa de Bits
-  Allocación promedio: 78.10 ms
-  Liberación promedio: 33.47 ms
+  Allocación promedio: 84.30 ms
+  Liberación promedio: 30.40 ms
   Búsqueda bloque grande: 1 ms
-  Fragmentación: 150.99%
+  Fragmentación: 167.89%
   Allocaciones exitosas: 50/50
   Liberaciones exitosas: 30/30
 
 Estructura: Lista Simplemente Ligada
-  Allocación promedio: 78.00 ms
+  Allocación promedio: 76.10 ms
+  Liberación promedio: 28.00 ms
+  Búsqueda bloque grande: 1 ms
+  Fragmentación: 298.41%
+  Allocaciones exitosas: 50/50
+  Liberaciones exitosas: 30/30
+
+Estructura: Lista Doblemente Ligada
+  Allocación promedio: 85.00 ms
+  Liberación promedio: 33.20 ms
+  Búsqueda bloque grande: 1 ms
+  Fragmentación: 316.22%
+  Allocaciones exitosas: 50/50
+  Liberaciones exitosas: 30/30
+
+
+----
+Corrida 2
+----
+
+Estructura: Mapa de Bits
+  Allocación promedio: 87.60 ms
+  Liberación promedio: 33.67 ms
+  Búsqueda bloque grande: 1 ms
+  Fragmentación: 203.23%
+  Allocaciones exitosas: 50/50
+  Liberaciones exitosas: 30/30
+
+Estructura: Lista Simplemente Ligada
+  Allocación promedio: 85.40 ms
+  Liberación promedio: 34.27 ms
+  Búsqueda bloque grande: 1 ms
+  Fragmentación: 246.77%
+  Allocaciones exitosas: 50/50
+  Liberaciones exitosas: 30/30
+
+Estructura: Lista Doblemente Ligada
+  Allocación promedio: 71.20 ms
+  Liberación promedio: 24.87 ms
+  Búsqueda bloque grande: 1 ms
+  Fragmentación: 262.30%
+  Allocaciones exitosas: 50/50
+  Liberaciones exitosas: 30/30
+
+
+----
+Corrida 3
+----
+
+Estructura: Mapa de Bits
+  Allocación promedio: 85.70 ms
+  Liberación promedio: 35.87 ms
+  Búsqueda bloque grande: 1 ms
+  Fragmentación: 363.41%
+  Allocaciones exitosas: 50/50
+  Liberaciones exitosas: 30/30
+
+Estructura: Lista Simplemente Ligada
+  Allocación promedio: 89.32 ms
+  Liberación promedio: 35.87 ms
+  Búsqueda bloque grande: 1 ms
+  Fragmentación: 210.39%
+  Allocaciones exitosas: 50/50
+  Liberaciones exitosas: 30/30
+
+Estructura: Lista Doblemente Ligada
+  Allocación promedio: 100.70 ms
+  Liberación promedio: 40.13 ms
+  Búsqueda bloque grande: 1 ms
+  Fragmentación: 196.85%
+  Allocaciones exitosas: 50/50
+  Liberaciones exitosas: 30/30
+
+
+----
+Corrida 4
+----
+
+Estructura: Mapa de Bits
+  Allocación promedio: 95.16 ms
+  Liberación promedio: 38.13 ms
+  Búsqueda bloque grande: 1 ms
+  Fragmentación: 228.71%
+  Allocaciones exitosas: 50/50
+  Liberaciones exitosas: 30/30
+
+Estructura: Lista Simplemente Ligada
+  Allocación promedio: 89.22 ms
+  Liberación promedio: 37.20 ms
+  Búsqueda bloque grande: 1 ms
+  Fragmentación: 251.79%
+  Allocaciones exitosas: 50/50
+  Liberaciones exitosas: 30/30
+
+Estructura: Lista Doblemente Ligada
+  Allocación promedio: 74.52 ms
+  Liberación promedio: 30.00 ms
+  Búsqueda bloque grande: 1 ms
+  Fragmentación: 517.65%
+  Allocaciones exitosas: 50/50
+  Liberaciones exitosas: 30/30
+
+
+----
+Corrida 5
+----
+
+Estructura: Mapa de Bits
+  Allocación promedio: 90.50 ms
+  Liberación promedio: 37.53 ms
+  Búsqueda bloque grande: 1 ms
+  Fragmentación: 362.50%
+  Allocaciones exitosas: 50/50
+  Liberaciones exitosas: 30/30
+
+Estructura: Lista Simplemente Ligada
+  Allocación promedio: 80.20 ms
+  Liberación promedio: 31.17 ms
+  Búsqueda bloque grande: 1 ms
+  Fragmentación: 403.45%
+  Allocaciones exitosas: 50/50
+  Liberaciones exitosas: 30/30
+
+Estructura: Lista Doblemente Ligada
+  Allocación promedio: 79.84 ms
   Liberación promedio: 27.67 ms
   Búsqueda bloque grande: 1 ms
-  Fragmentación: 124.77%
+  Fragmentación: 163.81%
   Allocaciones exitosas: 50/50
   Liberaciones exitosas: 30/30
-
-Estructura: Lista Doblemente Ligada
-  Allocación promedio: 95.90 ms
-  Liberación promedio: 37.10 ms
-  Búsqueda bloque grande: 1 ms
-  Fragmentación: 120.89%
-  Allocaciones exitosas: 50/50
-  Liberaciones exitosas: 29/30
-
-
-=========================================
-CORRIDA 2
-=========================================
-
-Estructura: Mapa de Bits
-  Allocación promedio: 73.00 ms
-  Liberación promedio: 25.80 ms
-  Búsqueda bloque grande: 1 ms
-  Fragmentación: 129.61%
-  Allocaciones exitosas: 50/50
-  Liberaciones exitosas: 30/30
-
-Estructura: Lista Simplemente Ligada
-  Allocación promedio: 81.80 ms
-  Liberación promedio: 37.00 ms
-  Búsqueda bloque grande: 1 ms
-  Fragmentación: 168.14%
-  Allocaciones exitosas: 50/50
-  Liberaciones exitosas: 30/30
-
-Estructura: Lista Doblemente Ligada
-  Allocación promedio: 87.30 ms
-  Liberación promedio: 37.07 ms
-  Búsqueda bloque grande: 1 ms
-  Fragmentación: 149.42%
-  Allocaciones exitosas: 50/50
-  Liberaciones exitosas: 30/30
-
-
-=========================================
-CORRIDA 3
-=========================================
-
-Estructura: Mapa de Bits
-  Allocación promedio: 87.90 ms
-  Liberación promedio: 28.96 ms
-  Búsqueda bloque grande: 1 ms
-  Fragmentación: 118.08%
-  Allocaciones exitosas: 50/50
-  Liberaciones exitosas: 27/30
-
-Estructura: Lista Simplemente Ligada
-  Allocación promedio: 88.30 ms
-  Liberación promedio: 38.53 ms
-  Búsqueda bloque grande: 1 ms
-  Fragmentación: 146.47%
-  Allocaciones exitosas: 50/50
-  Liberaciones exitosas: 30/30
-
-Estructura: Lista Doblemente Ligada
-  Allocación promedio: 71.70 ms
-  Liberación promedio: 27.07 ms
-  Búsqueda bloque grande: 1 ms
-  Fragmentación: 144.83%
-  Allocaciones exitosas: 50/50
-  Liberaciones exitosas: 30/30
-
-
-=========================================
-CORRIDA 4
-=========================================
-
-Estructura: Mapa de Bits
-  Allocación promedio: 80.10 ms
-  Liberación promedio: 29.86 ms
-  Búsqueda bloque grande: 1 ms
-  Fragmentación: 118.30%
-  Allocaciones exitosas: 50/50
-  Liberaciones exitosas: 28/30
-
-Estructura: Lista Simplemente Ligada
-  Allocación promedio: 78.10 ms
-  Liberación promedio: 31.79 ms
-  Búsqueda bloque grande: 1 ms
-  Fragmentación: 150.49%
-  Allocaciones exitosas: 50/50
-  Liberaciones exitosas: 29/30
-
-Estructura: Lista Doblemente Ligada
-  Allocación promedio: 80.10 ms
-  Liberación promedio: 32.87 ms
-  Búsqueda bloque grande: 1 ms
-  Fragmentación: 126.09%
-  Allocaciones exitosas: 50/50
-  Liberaciones exitosas: 30/30
-
-
-=========================================
-CORRIDA 5
-=========================================
-
-Estructura: Mapa de Bits
-  Allocación promedio: 68.80 ms
-  Liberación promedio: 30.47 ms
-  Búsqueda bloque grande: 1 ms
-  Fragmentación: 139.42%
-  Allocaciones exitosas: 50/50
-  Liberaciones exitosas: 30/30
-
-Estructura: Lista Simplemente Ligada
-  Allocación promedio: 79.50 ms
-  Liberación promedio: 29.93 ms
-  Búsqueda bloque grande: 1 ms
-  Fragmentación: 147.42%
-  Allocaciones exitosas: 50/50
-  Liberaciones exitosas: 30/30
-
-Estructura: Lista Doblemente Ligada
-  Allocación promedio: 88.40 ms
-  Liberación promedio: 37.11 ms
-  Búsqueda bloque grande: 1 ms
-  Fragmentación: 135.22%
-  Allocaciones exitosas: 50/50
-  Liberaciones exitosas: 27/30
 
