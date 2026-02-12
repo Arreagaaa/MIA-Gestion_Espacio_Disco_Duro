@@ -1,35 +1,15 @@
 /*
- * LISTA_DOBLE.CPP
+ * lista_doble.cpp
  *
- * IMPLEMENTA: Lista doblemente enlazada para gestión de disco
- *
- * DIFERENCIA CON LISTA SIMPLE:
- * Cada nodo tiene puntero al anterior Y al siguiente.
- *
- * EJEMPLO VISUAL:
- * NULL ← [nodo A] ↔ [nodo B] ↔ [nodo C] → NULL
- *  ↑       ↑ ↓        ↑ ↓        ↑ ↓      ↑
- *        prev next  prev next  prev next
- *
- * VENTAJAS:
- * 1. Recorrer en ambas direcciones
- * 2. Eliminar nodo es O(1) si tienes el puntero (no necesitas buscar el anterior)
- * 3. Insertar al final es O(1) (tenemos puntero cola)
- *
- * DESVENTAJAS:
- * 1. Más memoria (2 punteros por nodo vs 1)
- * 2. Más complejo de implementar
+ * Implementación de lista doblemente enlazada para gestión de bloques libres.
+ * Cada nodo tiene puntero al anterior y al siguiente; mantiene cabeza y cola.
  */
 
 #include "./core/disk_manager.h"
 #include <iostream>
 #include <algorithm>
 
-// ============================================================================
-// CONSTRUCTOR
-//
-// Similar a ListaSimple, pero mantenemos puntero a cola también.
-// ============================================================================
+// Constructor: similar a ListaSimple, pero con puntero a cola
 
 ListaDoble::ListaDoble() : GestorDisco(), cabeza(nullptr), cola(nullptr)
 {
@@ -67,9 +47,7 @@ ListaDoble::ListaDoble() : GestorDisco(), cabeza(nullptr), cola(nullptr)
     }
 }
 
-// ============================================================================
-// DESTRUCTOR
-// ============================================================================
+// Destructor
 
 ListaDoble::~ListaDoble()
 {
@@ -82,15 +60,7 @@ ListaDoble::~ListaDoble()
     }
 }
 
-// ============================================================================
-// INSERTAR_ORDENADO
-//
-// CASOS ESPECIALES CON LISTA DOBLE:
-// 1. Lista vacía → cabeza y cola apuntan al nuevo nodo
-// 2. Insertar al inicio → actualizar cabeza->anterior
-// 3. Insertar al final → actualizar cola y cola->siguiente
-// 4. Insertar en medio → actualizar 4 punteros
-// ============================================================================
+// insertar_ordenado: manejar casos especiales (inicio, final, medio)
 
 void ListaDoble::insertar_ordenado(int inicio, int tamanio)
 {
@@ -140,12 +110,7 @@ void ListaDoble::insertar_ordenado(int inicio, int tamanio)
     actual->siguiente = nuevo;
 }
 
-// ============================================================================
-// COALESCENCIA
-//
-// Mismo algoritmo que lista simple, pero más eficiente porque
-// eliminar_nodo es O(1) (no necesitamos buscar el anterior).
-// ============================================================================
+// coalescencia: unir huecos adyacentes (uso de eliminar_nodo para eficiencia)
 
 void ListaDoble::coalescencia()
 {
@@ -181,19 +146,7 @@ void ListaDoble::coalescencia()
     }
 }
 
-// ============================================================================
-// ELIMINAR_NODO
-//
-// VENTAJA DE LISTA DOBLE:
-// Eliminar un nodo es O(1) si tenemos el puntero.
-// No necesitamos buscar el anterior (ya lo tenemos en nodo->anterior).
-//
-// CASOS:
-// 1. Único nodo → cabeza = cola = nullptr
-// 2. Eliminar cabeza → actualizar cabeza
-// 3. Eliminar cola → actualizar cola
-// 4. Eliminar medio → reconectar anterior y siguiente
-// ============================================================================
+// eliminar_nodo: remover un nodo considerando casos (único, cabeza, cola, medio)
 
 void ListaDoble::eliminar_nodo(NodoDoble *nodo)
 {
@@ -239,11 +192,7 @@ void ListaDoble::eliminar_nodo(NodoDoble *nodo)
     delete nodo;
 }
 
-// ============================================================================
-// BUSCAR_MEJOR_AJUSTE
-//
-// Mismo algoritmo que lista simple (Best Fit).
-// ============================================================================
+// buscar_mejor_ajuste: algoritmo Best Fit (igual que lista simple)
 
 ListaDoble::NodoDoble *ListaDoble::buscar_mejor_ajuste(int num_bloques)
 {
@@ -268,12 +217,7 @@ ListaDoble::NodoDoble *ListaDoble::buscar_mejor_ajuste(int num_bloques)
     return mejor;
 }
 
-// ============================================================================
-// ALLOCAR
-//
-// VENTAJA vs LISTA SIMPLE:
-// Eliminar nodo es más eficiente gracias a eliminar_nodo() O(1).
-// ============================================================================
+// allocar: similar a lista simple; eliminación de nodo es O(1) si aplica
 
 bool ListaDoble::allocar(int num_bloques)
 {
@@ -311,11 +255,7 @@ bool ListaDoble::allocar(int num_bloques)
     return true;
 }
 
-// ============================================================================
-// LIBERAR
-//
-// Mismo proceso que lista simple.
-// ============================================================================
+// liberar: marcar bloques libres, insertar segmento y coalescencia
 
 bool ListaDoble::liberar(int inicio, int num_bloques)
 {
@@ -346,15 +286,7 @@ bool ListaDoble::liberar(int inicio, int num_bloques)
     return true;
 }
 
-// ============================================================================
-// BUSCAR_BLOQUE_MAS_GRANDE
-//
-// Mismo algoritmo que lista simple.
-//
-// POSIBLE OPTIMIZACIÓN:
-// Podríamos recorrer desde cola hacia atrás si los nodos más grandes
-// tienden a estar al final. Pero para este proyecto, mantener simple.
-// ============================================================================
+// buscar_bloque_mas_grande: recorrer nodos y devolver el mayor tamaño
 
 int ListaDoble::buscar_bloque_mas_grande()
 {
@@ -372,11 +304,7 @@ int ListaDoble::buscar_bloque_mas_grande()
     return max_tamanio;
 }
 
-// ============================================================================
-// IMPRIMIR_LISTA
-//
-// Mostrar con flechas bidireccionales.
-// ============================================================================
+// imprimir_lista: mostrar nodos con flechas bidireccionales
 
 void ListaDoble::imprimir_lista()
 {

@@ -1,36 +1,16 @@
 /*
- * LISTA_SIMPLE.CPP
+ * lista_simple.cpp
  *
- * IMPLEMENTA: Lista simplemente enlazada para gestión de disco
- *
- * CONCEPTO CLAVE:
- * En lugar de guardar TODOS los bloques (como el bitmap),
- * solo guardamos los BLOQUES LIBRES en forma de nodos.
- *
- * EJEMPLO VISUAL:
- * Disco: [✓][✓][_][_][_][✓][✓][_][_][✓]
- *                ↑_____↑        ↑__↑
- *               bloques 2-4   bloques 7-8
- *
- * Lista: [inicio:2, tam:3] → [inicio:7, tam:2] → NULL
- *
- * VENTAJA: Si el disco está 90% ocupado, solo guardamos el 10% libre.
+ * Implementa una lista simplemente enlazada para la gestión de bloques libres.
+ * En lugar de guardar todos los bloques, se guardan solo los huecos libres
+ * como nodos {inicio, tamanio}.
  */
 
 #include "./core/disk_manager.h"
 #include <iostream>
 #include <algorithm>
 
-// ============================================================================
-// CONSTRUCTOR
-//
-// PROPÓSITO: *Construir la lista inicial de bloques libres basándose en el disco.
-//
-// PROCESO:
-// 1. Escanear el disco
-// 2. Encontrar segmentos de bloques libres consecutivos
-// 3. Crear un nodo por cada segmento
-// ============================================================================
+// Constructor: construir la lista inicial de bloques libres a partir del disco
 
 ListaSimple::ListaSimple() : GestorDisco(),
                              cabeza(nullptr)
@@ -74,15 +54,7 @@ ListaSimple::ListaSimple() : GestorDisco(),
     }
 }
 
-// ============================================================================
-// DESTRUCTOR
-//
-// PROPÓSITO:
-// Liberar la memoria de todos los nodos para evitar memory leaks.
-//
-// PROCESO:
-// Recorrer la lista y hacer delete de cada nodo.
-// ============================================================================
+// Destructor: liberar memoria de los nodos
 
 ListaSimple::~ListaSimple()
 {
@@ -95,21 +67,7 @@ ListaSimple::~ListaSimple()
     }
 }
 
-// ============================================================================
-// INSERTAR_ORDENADO
-//
-// PROPÓSITO:
-// Insertar un nuevo nodo manteniendo la lista ordenada por posición.
-//
-// POR QUÉ ORDENADA:
-// Para facilitar la coalescencia (unir bloques adyacentes).
-//
-// EJEMPLO:
-// Lista: [inicio:10, tam:5] → [inicio:50, tam:10] → NULL
-// Insertar: [inicio:20, tam:3]
-// Resultado: [10,5] → [20,3] → [50,10] → NULL
-//                      ↑ insertado aquí
-// ============================================================================
+// insertar_ordenado: insertar un nuevo nodo manteniendo la lista ordenada
 
 void ListaSimple::insertar_ordenado(int inicio, int tamanio)
 {
@@ -135,29 +93,7 @@ void ListaSimple::insertar_ordenado(int inicio, int tamanio)
     actual->siguiente = nuevo;
 }
 
-// ============================================================================
-// COALESCENCIA
-//
-// PROPÓSITO:
-// Unir bloques libres adyacentes en un solo nodo más grande.
-//
-// POR QUÉ ES IMPORTANTE:
-// Al liberar bloques, pueden quedar fragmentados. Unirlos hace que
-// huecos grandes estén disponibles para allocaciones grandes.
-//
-// EJEMPLO:
-// ANTES de coalescencia:
-// [inicio:10, tam:5] → [inicio:15, tam:3] → [inicio:20, tam:2]
-//  bloques 10-14       bloques 15-17        bloques 20-21
-//                ↑ adyacentes ↑      ↑ adyacentes ↑
-//
-// DESPUÉS de coalescencia:
-// [inicio:10, tam:8]
-//  bloques 10-17 (unidos)
-//
-// ALGORITMO:
-// Si nodo.inicio + nodo.tamanio == siguiente.inicio → ¡Son adyacentes!
-// ============================================================================
+// coalescencia: unir bloques libres adyacentes en un único nodo
 
 void ListaSimple::coalescencia()
 {
@@ -185,29 +121,7 @@ void ListaSimple::coalescencia()
     }
 }
 
-// ============================================================================
-// BUSCAR_MEJOR_AJUSTE (Best Fit)
-//
-// PROPÓSITO:
-// Encontrar el hueco más pequeño que sea suficiente.
-//
-// ESTRATEGIA BEST FIT:
-// - Buscar en toda la lista
-// - Encontrar el hueco que minimice el desperdicio
-//
-// EJEMPLO:
-// Necesito: 10 bloques
-// Huecos disponibles: [5], [15], [12], [100]
-//                            ↑    ↑
-//                          caben ambos
-//
-// Best Fit elige: [12] (desperdicio = 2)
-// (No [15] porque desperdicia más: 5)
-//
-// ALTERNATIVAS:
-// - First Fit: Primer hueco que cabe (más rápido pero más fragmentación)
-// - Worst Fit: Hueco más grande (deja huecos grandes, pero puede agotar grandes)
-// ============================================================================
+// buscar_mejor_ajuste (Best Fit): encontrar el hueco con menor desperdicio
 
 ListaSimple::Nodo *ListaSimple::buscar_mejor_ajuste(int num_bloques)
 {

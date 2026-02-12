@@ -1,18 +1,9 @@
 /*
- * MAIN.CPP
+ * main.cpp
  *
- * PUNTO DE ENTRADA DEL PROGRAMA
- *
- * QUÉ HACE ESTE ARCHIVO:
- * 1. Ejecuta 5 corridas completas
- * 2. Para cada corrida:
- *    - Crea las 3 estructuras (Bitmap, ListaSimple, ListaDoble)
- *    - Inicializa disco al 70% ocupado
- *    - Hace 50 allocaciones aleatorias
- *    - Hace 30 liberaciones aleatorias
- *    - Mide tiempos
- * 3. Guarda resultados en resultados.txt
- * 4. Muestra resumen final comparativo
+ * Punto de entrada del programa.
+ * Este archivo orquesta las corridas de la simulación, mide tiempos
+ * y guarda los resultados en `data/resultados.txt`.
  */
 
 #include "core/disk_manager.h"
@@ -24,11 +15,8 @@
 #include <memory>
 #include <map>
 
-// ============================================================================
-// ESTRUCTURA: ResultadoOperacion
-//
-// Guarda el resultado de UNA operación (allocar o liberar)
-// ============================================================================
+// Estructura: ResultadoOperacion
+// Guarda el resultado de una operación (allocar o liberar)
 
 struct ResultadoOperacion
 {
@@ -36,18 +24,8 @@ struct ResultadoOperacion
     bool exito;          // ¿Se completó exitosamente?
 };
 
-// ============================================================================
-// ESTRUCTURA: ResultadoEstructura
-//
-// Guarda todos los resultados de UNA estructura en UNA corrida
-//
-// EJEMPLO:
-// Para "Mapa de Bits" en corrida 1:
-// - tiempos_allocacion: [24ms, 26ms, 23ms, ..., 25ms] (50 valores)
-// - tiempos_liberacion: [8ms, 9ms, 7ms, ..., 8ms] (30 valores)
-// - tiempo_busqueda: 2ms
-// - fragmentacion: 15.2%
-// ============================================================================
+// Estructura: ResultadoEstructura
+// Guarda los resultados de una estructura en una corrida
 
 struct ResultadoEstructura
 {
@@ -80,18 +58,9 @@ struct ResultadoEstructura
     }
 };
 
-// ============================================================================
-// FUNCIÓN: ejecutar_secuencia_pruebas
-//
-// PROPÓSITO:
-// Ejecutar la secuencia completa de pruebas para UNA estructura.
-//
-// PROCESO:
-// 1. 50 allocaciones de tamaño aleatorio (1-32 bloques)
-// 2. 30 liberaciones de bloques aleatorios
-// 3. 1 búsqueda del bloque más grande
-// 4. Calcular fragmentación
-// ============================================================================
+// Función: ejecutar_secuencia_pruebas
+// Ejecuta la secuencia completa de pruebas para una estructura.
+// Proceso: 50 allocaciones, 30 liberaciones, 1 búsqueda, calcular fragmentación.
 
 ResultadoEstructura ejecutar_secuencia_pruebas(GestorDisco *gestor)
 {
@@ -109,9 +78,7 @@ ResultadoEstructura ejecutar_secuencia_pruebas(GestorDisco *gestor)
 
     std::cout << "  Ejecutando 50 allocaciones...\n";
 
-    // ========================================================================
-    // FASE 1: 50 ALLOCACIONES
-    // ========================================================================
+    // Fase 1: 50 allocaciones
     for (int i = 0; i < 50; i++)
     {
         int num_bloques = dist_tam(gen); // Tamaño aleatorio 1-32
@@ -139,9 +106,7 @@ ResultadoEstructura ejecutar_secuencia_pruebas(GestorDisco *gestor)
 
     std::cout << "  Ejecutando 30 liberaciones...\n";
 
-    // ========================================================================
-    // FASE 2: 30 LIBERACIONES
-    // ========================================================================
+    // Fase 2: 30 liberaciones
     int liberaciones_realizadas = 0;
     for (int i = 0; i < 30 && !allocaciones_exitosas.empty(); i++)
     {
@@ -172,29 +137,21 @@ ResultadoEstructura ejecutar_secuencia_pruebas(GestorDisco *gestor)
 
     std::cout << "  Midiendo búsqueda del bloque más grande...\n";
 
-    // ========================================================================
-    // FASE 3: BÚSQUEDA
-    // ========================================================================
+    // Fase 3: búsqueda
     gestor->iniciar_cronometro();
     int bloque_mayor = gestor->buscar_bloque_mas_grande();
     resultado.tiempo_busqueda = gestor->detener_cronometro();
 
     std::cout << "    Bloque libre más grande: " << bloque_mayor << " bloques\n";
 
-    // ========================================================================
-    // FASE 4: FRAGMENTACIÓN
-    // ========================================================================
+    // Fase 4: fragmentación
     resultado.fragmentacion = gestor->get_fragmentacion();
 
     return resultado;
 }
 
-// ============================================================================
-// FUNCIÓN: guardar_resultados
-//
-// PROPÓSITO:
+// Función: guardar_resultados
 // Escribir resultados de una corrida en resultados.txt
-// ============================================================================
 
 void guardar_resultados(const std::vector<ResultadoEstructura> &resultados,
                         int num_corrida)
@@ -207,9 +164,9 @@ void guardar_resultados(const std::vector<ResultadoEstructura> &resultados,
         return;
     }
 
-    file << "\n=========================================\n";
-    file << "CORRIDA " << num_corrida << "\n";
-    file << "=========================================\n\n";
+    file << "\n----\n";
+    file << "Corrida " << num_corrida << "\n";
+    file << "----\n\n";
 
     for (const auto &res : resultados)
     {
@@ -227,18 +184,12 @@ void guardar_resultados(const std::vector<ResultadoEstructura> &resultados,
     file.close();
 }
 
-// ============================================================================
-// FUNCIÓN: imprimir_resumen_final
-//
-// PROPÓSITO:
-// Mostrar tabla comparativa con promedios de las 5 corridas.
-// ============================================================================
+// Función: imprimir_resumen_final
+// Muestra la tabla comparativa con promedios de las corridas.
 
 void imprimir_resumen_final(const std::vector<std::vector<ResultadoEstructura>> &todas_corridas)
 {
-    std::cout << "\n========================================\n";
-    std::cout << "RESUMEN FINAL - " << todas_corridas.size() << " CORRIDAS\n";
-    std::cout << "========================================\n\n";
+    std::cout << "\n--- RESUMEN FINAL - " << todas_corridas.size() << " corridas ---\n\n";
 
     // Acumular datos por estructura
     std::map<std::string, std::vector<double>> promedios_alloc;
@@ -299,16 +250,11 @@ void imprimir_resumen_final(const std::vector<std::vector<ResultadoEstructura>> 
     std::cout << "\n";
 }
 
-// ============================================================================
-// FUNCIÓN PRINCIPAL
-// ============================================================================
+// Función principal
 
 int main()
 {
-    std::cout << "╔══════════════════════════════════════════════════════╗\n";
-    std::cout << "║  SIMULADOR DE GESTIÓN DE ESPACIO EN DISCO DURO      ║\n";
-    std::cout << "║  Comparación de Estructuras de Datos                 ║\n";
-    std::cout << "╚══════════════════════════════════════════════════════╝\n\n";
+    std::cout << "Simulador de gestión de espacio en disco duro - Comparación de estructuras\n\n";
 
     const int NUM_CORRIDAS = 5;
     std::vector<std::vector<ResultadoEstructura>> todas_corridas;
@@ -329,9 +275,7 @@ int main()
     // ========================================================================
     for (int corrida = 1; corrida <= NUM_CORRIDAS; corrida++)
     {
-        std::cout << "\n┌─────────────────────────────────────────────────────┐\n";
-        std::cout << "│  CORRIDA " << corrida << "/" << NUM_CORRIDAS << std::string(42, ' ') << "│\n";
-        std::cout << "└─────────────────────────────────────────────────────┘\n\n";
+        std::cout << "\nCorrida " << corrida << " de " << NUM_CORRIDAS << "\n\n";
 
         std::vector<ResultadoEstructura> resultados_corrida;
 
@@ -357,7 +301,7 @@ int main()
         // Ejecutar pruebas para cada estructura
         for (auto &gestor : gestores)
         {
-            std::cout << "\n─── " << gestor->obtener_nombre() << " ───\n";
+            std::cout << "\n--- " << gestor->obtener_nombre() << " ---\n";
 
             ResultadoEstructura resultado = ejecutar_secuencia_pruebas(gestor.get());
             resultados_corrida.push_back(resultado);
@@ -367,7 +311,7 @@ int main()
         guardar_resultados(resultados_corrida, corrida);
         todas_corridas.push_back(resultados_corrida);
 
-        std::cout << "\n✓ Corrida " << corrida << " completada\n";
+        std::cout << "\nCorrida " << corrida << " completada\n";
     }
 
     // ========================================================================
@@ -375,9 +319,9 @@ int main()
     // ========================================================================
     imprimir_resumen_final(todas_corridas);
 
-    std::cout << "✓ Resultados guardados en: data/resultados.txt\n";
-    std::cout << "✓ Estado inicial guardado en: data/disco_inicial.txt\n";
-    std::cout << "\n¡Simulación completada exitosamente!\n\n";
+    std::cout << "Resultados guardados en: data/resultados.txt\n";
+    std::cout << "Estado inicial guardado en: data/disco_inicial.txt\n";
+    std::cout << "\nSimulación completada exitosamente.\n\n";
 
     return 0;
 }

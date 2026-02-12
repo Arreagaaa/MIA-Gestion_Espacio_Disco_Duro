@@ -18,7 +18,7 @@ HEADERS = $(CORE_DIR)/disk_manager.h
 
 # Regla principal
 all: $(DATA_DIR) $(TARGET)
-	@echo "✓ Compilación exitosa. Ejecutar: ./$(TARGET)"
+	@echo "Compilación exitosa. Ejecutar: ./$(TARGET)"
 
 $(DATA_DIR):
 	mkdir -p $(DATA_DIR)

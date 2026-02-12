@@ -1,13 +1,9 @@
 /*
- * DISK_MANAGER_BASE.CPP
+ * disk_manager_base.cpp
  *
- * CONTIENE:
- * 1. Implementación de GestorDisco (clase base)
- * 2. Implementación de MapaDeBits (primera estructura)
- *
- * EXPLICACIÓN:
- * Este archivo tiene el código COMÚN que todas las estructuras comparten,
- * más la implementación completa del Mapa de Bits.
+ * Implementación de la clase base `GestorDisco` y del `MapaDeBits`.
+ * Contiene los métodos comunes a las estructuras y la implementación
+ * del mapa de bits.
  */
 
 #include "disk_manager.h"
@@ -17,9 +13,7 @@
 #include <thread>
 #include <algorithm>
 
-// ============================================================================
-// IMPLEMENTACIÓN DE GestorDisco (CLASE BASE)
-// ============================================================================
+// Implementación de GestorDisco (clase base)
 
 /*
  * CONSTRUCTOR
@@ -297,12 +291,12 @@ MapaDeBits::MapaDeBits() : GestorDisco()
  *
  * COMPLEJIDAD: O(n) - debe escanear todo en el peor caso
  *
- * EJEMPLO:
- * bitmap: [✓][✓][_][_][_][✓][_][_][_][_]
- *                ↑_____↑        ↑_______↑
- *                3 libres       4 libres
+ * Ejemplo:
+ * bitmap: [1][1][0][0][0][1][0][0][0][0]
+ *          ^^^^^  ^^^^^
+ *          3 libres   4 libres
  *
- * buscar_bloques_consecutivos(3) → retorna 2 (posición de inicio)
+ * buscar_bloques_consecutivos(3) -> retorna 2 (posición de inicio)
  */
 int MapaDeBits::buscar_bloques_consecutivos(int num_bloques)
 {

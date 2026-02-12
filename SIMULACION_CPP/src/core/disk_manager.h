@@ -1,14 +1,8 @@
 /*
- * DISK_MANAGER.H
+ * disk_manager.h
  *
- * PROPÓSITO:
- * Define la CLASE BASE ABSTRACTA para todas las estructuras de datos.
- * Es como un "contrato" que dice: "Todas las estructuras deben poder allocar,
- * liberar y buscar bloques".
- *
- * ANALOGÍA:
- * Es como decir "todos los vehículos deben tener: acelerar(), frenar(), girar()"
- * Luego cada vehículo (auto, moto, camión) lo implementa a su manera.
+ * Definiciones de la clase base `GestorDisco` y las interfaces para
+ * las estructuras (MapaDeBits, ListaSimple, ListaDoble).
  */
 
 #ifndef DISK_MANAGER_H
@@ -18,17 +12,13 @@
 #include <string>
 #include <chrono>
 
-// ============================================================================
-// CONSTANTES DEL SISTEMA
-// ============================================================================
+// Constantes del sistema
 
 const int TOTAL_BLOQUES = 1024;       // Tamaño del disco: 1024 bloques
 const int TAMANIO_BLOQUE = 1024;      // Cada bloque = 1KB
 const float OCUPACION_INICIAL = 0.70; // 70% ocupado al inicio
 
-// ============================================================================
-// ENUMERACIÓN: Tipos de operación (para simular delays)
-// ============================================================================
+// Enumeración: Tipos de operación (para simular delays)
 
 enum TipoOperacion
 {
@@ -37,13 +27,8 @@ enum TipoOperacion
     BUSQUEDA    // Buscar huecos (1ms total)
 };
 
-// ============================================================================
-// CLASE BASE ABSTRACTA: GestorDisco
-//
-// EXPLICACIÓN:
-// Esta clase define QUÉ debe hacer un gestor de disco, pero NO dice CÓMO.
-// Las clases hijas (MapaDeBits, ListaSimple, ListaDoble) implementan el CÓMO.
-// ============================================================================
+// Clase base abstracta: GestorDisco
+// Define la interfaz común para los gestores de disco.
 
 class GestorDisco
 {
@@ -117,24 +102,10 @@ public:
     long long detener_cronometro(); // Retorna milisegundos
 };
 
-// ============================================================================
-// CLASE: MapaDeBits
-//
-// IMPLEMENTA: Gestión usando un array booleano
-//
-// CÓMO FUNCIONA:
-// bitmap[0] = true → Bloque 0 ocupado
-// bitmap[1] = false → Bloque 1 libre
-// bitmap[2] = false → Bloque 2 libre
-// ...
-//
-// VENTAJAS:
-// - Simple de implementar
-// - Acceso directo O(1) a cualquier bloque
-//
-// DESVENTAJAS:
-// - Búsqueda secuencial O(n) para encontrar N bloques consecutivos
-// ============================================================================
+// Clase: MapaDeBits
+// Implementa la gestión usando un array booleano (bitmap).
+// Ventaja: simple, acceso directo O(1).
+// Desventaja: búsqueda lineal O(n) para bloques consecutivos.
 
 class MapaDeBits : public GestorDisco
 {

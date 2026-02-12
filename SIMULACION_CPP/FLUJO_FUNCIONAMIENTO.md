@@ -1,6 +1,6 @@
-# 🖥️ SIMULADOR DE GESTIÓN DE ESPACIO EN DISCO DURO
+# Simulador de gestión de espacio en disco duro
 
-## 📋 ÍNDICE
+## Índice
 
 1. [¿Qué es este proyecto?](#qué-es-este-proyecto)
 2. [Explicación simple](#explicación-simple)
@@ -17,11 +17,14 @@
 
 ---
 
-## 🎯 ¿QUÉ ES ESTE PROYECTO?
+## ¿Qué es este proyecto?
+Bloques libres: 6 (posiciones 2,3,6,9,10,11)
+Bloque más grande: 3 (posiciones 9-11)
 
-### Descripción General
 
-Un **simulador de gestión de espacio en disco** que compara 3 métodos diferentes para administrar bloques libres y ocupados:
+### Descripción general
+
+Un simulador de gestión de espacio en disco que compara 3 métodos diferentes para administrar bloques libres y ocupados:
 
 1. **Mapa de Bits (Bitmap)** - Array booleano
 2. **Lista Simplemente Ligada** - Nodos con puntero →
@@ -43,18 +46,18 @@ Aprender que **no existe una estructura de datos "perfecta"**. Cada una tiene ve
 
 ---
 
-## 💡 EXPLICACIÓN SIMPLE
+## Explicación simple
 
-### Analogía del Estacionamiento
+### Analogía del estacionamiento
 
-Imagina que el disco es un **estacionamiento con 1024 espacios**:
+Imagina que el disco es un estacionamiento con 1024 espacios:
 
 ```
 Espacio: [1][2][3][4][5][6][7][8][9][10]...
-Estado:  [✓][✓][_][_][_][✓][✓][_][_][✓]...
+Estado:  [X][X][_][_][_][X][X][_][_][X]...
 
 Leyenda:
-✓ = Ocupado (hay un carro estacionado)
+X = Ocupado (hay un carro estacionado)
 _ = Libre (espacio disponible)
 ```
 
@@ -104,29 +107,29 @@ NULL ← [nodo A] ↔ [nodo B] ↔ [nodo C] → NULL
 ```
 Solicitud: "Necesito 3 espacios consecutivos"
 
-ANTES:  [_][_][_][✓][✓][_]
-         ↑  ↑  ↑
-      encontrados
+ANTES:  [_][_][_][X][X][_]
+      ↑  ↑  ↑
+   encontrados
 
-DESPUÉS: [✓][✓][✓][✓][✓][_]
-         ← llenados
+DESPUÉS: [X][X][X][X][X][_]
+      ← llenados
 ```
 
 #### LIBERAR = Vaciar espacios
 ```
 Solicitud: "Liberar espacios 0-2"
 
-ANTES:  [✓][✓][✓][✓][✓][_]
-         ↑  ↑  ↑
-      a liberar
+ANTES:  [X][X][X][X][X][_]
+      ↑  ↑  ↑
+   a liberar
 
-DESPUÉS: [_][_][_][✓][✓][_]
-         ← vaciados
+DESPUÉS: [_][_][_][X][X][_]
+      ← vaciados
 ```
 
 #### BUSCAR = Encontrar el hueco más grande
 ```
-Disco: [_][_][✓][_][_][_][_][✓][_]
+Disco: [_][_][X][_][_][_][_][X][_] 
         ↑2↑      ↑____4____↑    ↑1↑
 
 Resultado: Hueco más grande = 4 bloques
@@ -134,7 +137,7 @@ Resultado: Hueco más grande = 4 bloques
 
 ---
 
-## 🚀 QUICK START
+## Quick Start
 
 ### Requisitos Previos
 - g++ con soporte C++17
@@ -156,7 +159,7 @@ cat data/resultados.txt
 
 ---
 
-## 📂 ESTRUCTURA DEL PROYECTO
+## Estructura del proyecto
 
 ```
 disk-space-simulator/
@@ -188,7 +191,7 @@ disk-space-simulator/
 
 ---
 
-## 📖 EXPLICACIÓN DETALLADA DEL CÓDIGO
+## Explicación detallada del código
 
 ### 🔹 disk_manager.h
 
@@ -441,7 +444,7 @@ Espacio libre disperso en trozos pequeños no utilizables.
 
 **Ejemplo:**
 ```
-Disco: [✓][✓][_][_][✓][✓][_][✓][✓][_][_][_]
+Disco: [X][X][_][_][X][X][_][X][X][_][_][_]
 
 Bloques libres: 6 (posiciones 2,3,6,9,10,11)
 Bloque más grande: 3 (posiciones 9-11)
@@ -558,21 +561,21 @@ fragmentacion = gestor->get_fragmentacion()
 ### ¿Cuándo usar cada una?
 
 **Mapa de Bits:**
-- ✅ Disco pequeño (<10,000 bloques)
-- ✅ Implementación simple necesaria
-- ✅ Espacio libre disperso uniformemente
-- ❌ Disco grande (millones de bloques)
+- Disco pequeño (<10,000 bloques)
+- Implementación simple necesaria
+- Espacio libre disperso uniformemente
+- Disco grande (no recomendado)
 
 **Lista Simple:**
-- ✅ Disco muy ocupado (pocos huecos)
-- ✅ Memoria limitada
-- ❌ Muchas inserciones/eliminaciones
+- Disco muy ocupado (pocos huecos)
+- Memoria limitada
+- Muchas inserciones/eliminaciones (no recomendado)
 
 **Lista Doble:**
-- ✅ Operaciones frecuentes en medio de la lista
-- ✅ Necesitas recorrido bidireccional
-- ✅ Eliminar nodos frecuentemente
-- ❌ Memoria muy limitada
+- Operaciones frecuentes en medio de la lista
+- Necesitas recorrido bidireccional
+- Eliminar nodos frecuentemente
+- Memoria muy limitada (no recomendado)
 
 ---
 
@@ -961,8 +964,8 @@ Borras foto.jpg
 **Bloques uno tras otro.**
 
 ```
-Consecutivos: [5][6][7][8]  ✅
-No consecutivos: [5][7][9]  ❌
+Consecutivos: [5][6][7][8]  (sí)
+No consecutivos: [5][7][9]  (no)
 ```
 
 **¿Por qué importa?**
@@ -1084,34 +1087,34 @@ All heap blocks were freed -- no leaks are possible
 
 ### Programación
 
-- ✅ Herencia y polimorfismo
-- ✅ Clases abstractas (interfaces)
-- ✅ Punteros y memoria dinámica
-- ✅ Listas enlazadas (simple y doble)
-- ✅ Smart pointers (`unique_ptr`)
-- ✅ Destructores virtuales
+- Herencia y polimorfismo
+- Clases abstractas (interfaces)
+- Punteros y memoria dinámica
+- Listas enlazadas (simple y doble)
+- Smart pointers (`unique_ptr`)
+- Destructores virtuales
 
 ### Algoritmos
 
-- ✅ Búsqueda secuencial
-- ✅ Best Fit vs First Fit
-- ✅ Coalescencia
-- ✅ Complejidad temporal O(1), O(n), O(m)
+- Búsqueda secuencial
+ - Best Fit vs First Fit
+ - Coalescencia
+ - Complejidad temporal O(1), O(n), O(m)
 
 ### Sistemas Operativos
 
-- ✅ Gestión de memoria/disco
-- ✅ Fragmentación interna vs externa
-- ✅ Delays de I/O
-- ✅ Estructuras de datos para SO
+ - Gestión de memoria/disco
+ - Fragmentación interna vs externa
+ - Delays de I/O
+ - Estructuras de datos para SO
 
 ### C++ Específico
 
-- ✅ `<chrono>` - Medición de tiempos
-- ✅ `<random>` - Números aleatorios
-- ✅ `<fstream>` - Archivos
-- ✅ `<thread>` - Delays
-- ✅ STL: `vector`, `map`, `unique_ptr`
+ - `<chrono>` - Medición de tiempos
+ - `<random>` - Números aleatorios
+ - `<fstream>` - Archivos
+ - `<thread>` - Delays
+ - STL: `vector`, `map`, `unique_ptr`
 
 ---
 
@@ -1169,7 +1172,7 @@ R: Sí, usar árbol balanceado (AVL, Red-Black) para O(log m) en vez de O(m).
 
 ---
 
-## 🚀 SIGUIENTES PASOS
+## Siguientes pasos
 
 ### Extensiones posibles:
 
