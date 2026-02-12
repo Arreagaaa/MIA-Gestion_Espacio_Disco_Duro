@@ -220,7 +220,15 @@ void GestorDisco::cargar_estado(const std::string &archivo)
  */
 float GestorDisco::get_fragmentacion() const
 {
-    if (bloques_libres == 0)
+    // Recalcular número real de bloques libres por seguridad
+    int reales_libres = 0;
+    for (int i = 0; i < TOTAL_BLOQUES; i++)
+    {
+        if (!disco[i])
+            reales_libres++;
+    }
+
+    if (reales_libres == 0)
         return 0.0;
 
     // Encontrar el bloque libre más grande
@@ -240,8 +248,13 @@ float GestorDisco::get_fragmentacion() const
         }
     }
 
-    // Calcular fragmentación
-    return (bloques_libres - max_consecutivos) * 100.0 / bloques_libres;
+    // Usar el recuento real para el cálculo (evita inconsistencias)
+    double frag = (static_cast<double>(reales_libres - max_consecutivos) * 100.0) / reales_libres;
+    if (frag < 0.0)
+        frag = 0.0;
+    if (frag > 100.0)
+        frag = 100.0;
+    return static_cast<float>(frag);
 }
 
 /*
